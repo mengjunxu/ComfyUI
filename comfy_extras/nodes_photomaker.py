@@ -126,7 +126,7 @@ class PhotoMakerLoader:
     CATEGORY = "_for_testing/photomaker"
 
     def load_photomaker_model(self, photomaker_model_name):
-        photomaker_model_path = folder_paths.get_full_path("photomaker", photomaker_model_name)
+        photomaker_model_path = folder_paths.get_full_path_or_raise("photomaker", photomaker_model_name)
         photomaker_model = PhotoMakerIDEncoder()
         data = comfy.utils.load_torch_file(photomaker_model_path, safe_load=True)
         if "id_encoder" in data:
@@ -141,7 +141,7 @@ class PhotoMakerEncode:
         return {"required": { "photomaker": ("PHOTOMAKER",),
                               "image": ("IMAGE",),
                               "clip": ("CLIP", ),
-                              "text": ("STRING", {"multiline": True, "default": "photograph of photomaker"}),
+                              "text": ("STRING", {"multiline": True, "dynamicPrompts": True, "default": "photograph of photomaker"}),
                              }}
 
     RETURN_TYPES = ("CONDITIONING",)
